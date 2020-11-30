@@ -73,12 +73,6 @@ public class Task8 implements Task {
 
   //...
   public long countEven(Stream<Integer> numbers) {
-    count = 0;
-    numbers.filter(num -> num % 2 == 0).forEach(num -> count++);
-    return count;
-  }
-
-  public long countEvenModified(Stream<Integer> numbers) {
     return numbers.filter(num -> num % 2 == 0).count();
   }
 
@@ -87,11 +81,11 @@ public class Task8 implements Task {
     System.out.println("\n-------- TASK 8 ----------");
     System.out.println("\t  Final round\n");
     System.out.println("Слабо дойти до сюда и исправить Fail этой таски?");
-    //checkGetNames();
-    //checkDifferentNames();
-    //checkConvertPersonToString();
-    //checkGetPersonsNames();
-    //checkHasSamePerson();
+    checkGetNames();
+    checkDifferentNames();
+    checkConvertPersonToString();
+    checkGetPersonsNames();
+    checkHasSamePerson();
     checkCountEven();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
@@ -100,14 +94,14 @@ public class Task8 implements Task {
   }
 
   public void checkGetNames() {
-    System.out.println("Checking getNames function...");
+    System.out.println("\nChecking getNames function...");
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase13().test(5, persons, "O(n)", "Using skip");
     new TestCase14().test(5, persons, "O(n)", "Удаление элемента из начала массива - не лучшая идея");
   }
 
   public void checkDifferentNames() {
-    System.out.println("Checking getDifferentNames function...");
+    System.out.println("\nChecking getDifferentNames function...");
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase15().test(5, persons, "O(n)", "Без distinct. Во множестве и так будут содержаться только уникальные элементы");
     new TestCase16().test(5, persons, "O(n)", "С distinct. Посмотрим, как скажется на времени выполнения... ");
@@ -115,7 +109,7 @@ public class Task8 implements Task {
   }
 
   public void checkConvertPersonToString() {
-    System.out.println("Checking convertPersonToString function...");
+    System.out.println("\nChecking convertPersonToString function...");
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase17().test(5, persons, "", "Старый варинат");
     new TestCase18().test(5, persons, "", "Вариант с применением стримов");
@@ -123,7 +117,7 @@ public class Task8 implements Task {
   }
 
   public void checkGetPersonsNames() {
-    System.out.println("Checking getPersonsNames function...");
+    System.out.println("\nChecking getPersonsNames function...");
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase19().test(5, persons, "O(n)", "Вариант с циклом for");
     new TestCase20().test(5, persons, "O(n)", "Вариант с применением стримов");
@@ -131,7 +125,7 @@ public class Task8 implements Task {
   }
 
   public void checkHasSamePerson() {
-    System.out.println("Checking hasSamePerson function...");
+    System.out.println("\nChecking hasSamePerson function...");
 
     new TestCase21().test(1, List.of(persons.subList(1_000_000, 2_000_000), persons.subList(0, 1_100_000)),
             "",
@@ -146,10 +140,10 @@ public class Task8 implements Task {
   }
 
   public void checkCountEven() {
-    System.out.println("Checking countEven function...");
+    System.out.println("\nChecking countEven function...");
     new TestCase24().test(5, 1, "O(n)", "Первоначальный вариант");
     new TestCase25().test(5, 1, "O(n)", "Streams.count()");
-    System.out.println("\nЭтот результат меня удивил\n");
+    System.out.println("\nСтримы лаконичнее");
   }
 
 }

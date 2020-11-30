@@ -52,11 +52,11 @@ public class Task2 implements Task {
 
   public void checkExecutionTime() {
     Instant time = Instant.now();
-    Collection<Person> persons1 = Stream.iterate(1, i -> i+1).limit(100_000)
+    Collection<Person> persons1 = Stream.iterate(1, i -> i+1).limit(1_000_000)
             .map(id -> new Person(id, "Person " + id, time.plusSeconds(id)))
             .collect(Collectors.toSet());
-    Collection<Person> persons2 = Stream.iterate(100_000, i -> i+1).limit(100_000)
-            .map(id -> new Person(id, "Person " + id, time.minusSeconds(200_000 - id)))
+    Collection<Person> persons2 = Stream.iterate(100_000, i -> i+1).limit(1_000_000)
+            .map(id -> new Person(id, "Person " + id, time.minusSeconds(2_000_000 - id)))
             .collect(Collectors.toSet());
     System.out.println("Testing execution time for lists of size " + persons1.size());
     System.out.println("Assuming that sorting time complexity is O(nlogn)");

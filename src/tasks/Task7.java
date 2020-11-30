@@ -32,11 +32,11 @@ public class Task7 implements Task {
 
   public void checkExecutionTime() {
 
-    List<Vacancy> vacancies = Stream.iterate(1, i -> i+1).limit(100_000)
+    List<Vacancy> vacancies = Stream.iterate(1, i -> i+1).limit(1_000_000)
             .map(id -> new Vacancy(id, "vacancy " + Math.random()*1000))
             .collect(Collectors.toList());
 
-    List<Company> companies = Stream.iterate(1, i -> i+1).limit(50_000)
+    List<Company> companies = Stream.iterate(1, i -> i+1).limit(500_000)
             .map(id -> new Company(id, "company " + id,
                     Set.of(vacancies.get(2 + (int)Math.random()*id), vacancies.get(0))
             )).collect(Collectors.toList());
