@@ -2,6 +2,9 @@ package tasks;
 
 import common.Person;
 import common.Task;
+import common.TestCaseClass;
+import tests.TestCase13;
+import tests.TestCase14;
 
 import java.time.Instant;
 import java.util.*;
@@ -122,30 +125,23 @@ public class Task8 implements Task {
     System.out.println("\n-------- TASK 8 ----------");
     System.out.println("\t  Final round\n");
     System.out.println("Слабо дойти до сюда и исправить Fail этой таски?");
-    System.out.println(checkGetNames());
+    checkGetNames();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
     return codeSmellsGood || reviewerDrunk;
   }
 
-  public String checkGetNames() {
+  public void checkGetNames() {
     System.out.println("Checking getNames function...");
-    List<Person> persons = Stream.iterate(0, i -> i +1).limit(100_000)
+    List<Person> persons = Stream.iterate(0, i -> i +1).limit(1_000_000)
             .map(id -> new Person(id, "Name " + id, Instant.now()))
             .collect(Collectors.toList());
     System.out.println("Checking list of " + persons.size() + " persons");
-    persons.stream().forEach(person-> System.out.println("Creating person: " + person.getFirstName()));
-    System.out.print("Should return: ");
-    persons.subList(1, persons.size()).stream()
-            .map(Person::getFirstName).forEach(name -> System.out.print(name + " "));
-    System.out.println("");
-    getNames(persons);
-    return getNamesModified(persons)
-            .equals(persons.subList(1, persons.size()).stream()
-                    .map(Person::getFirstName).collect(Collectors.toList())
-            ) ? "Right answer" : "Wrong answer";
+    new TestCase13().test(5, persons, "O(n)", "Using skip");
+    new TestCase14().test(5, persons, "O(n)", "Удаление элемента из начала массива - не лучшая идея");
   }
 
 }
+
 
