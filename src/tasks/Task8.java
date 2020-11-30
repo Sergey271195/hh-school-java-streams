@@ -37,25 +37,8 @@ public class Task8 implements Task {
   }
 
   //Для фронтов выдадим полное имя, а то сами не могут
+
   public String convertPersonToString(Person person) {
-
-    //Expecting middle name somewhere
-    String result = "";
-    if (person.getSecondName() != null) {
-      result += person.getSecondName();
-    }
-
-    if (person.getFirstName() != null) {
-      result += " " + person.getFirstName();
-    }
-
-    if (person.getSecondName() != null) {
-      result += " " + person.getSecondName();
-    }
-    return result;
-  }
-
-  public String convertPersonToStringModified(Person person) {
     return Stream.of(person.getFirstName(), person.getSecondName(), person.getMiddleName())
             .filter(Objects::nonNull).collect(Collectors.joining(" "));
   }
@@ -73,7 +56,7 @@ public class Task8 implements Task {
 
   public Map<Integer, String> getPersonNamesModified(Collection<Person> persons) {
     return persons.stream().collect(Collectors.toMap(
-            Person::getId, person -> convertPersonToStringModified(person), (a, b) -> a)
+            Person::getId, person -> convertPersonToString(person), (a, b) -> a)
     );
   }
 
@@ -115,7 +98,8 @@ public class Task8 implements Task {
     System.out.println("Слабо дойти до сюда и исправить Fail этой таски?");
     //checkGetNames();
     //checkDifferentNames();
-    checkConvertPersonToString();
+    //checkConvertPersonToString();
+    checkGetPersonsNames();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
@@ -134,7 +118,7 @@ public class Task8 implements Task {
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase15().test(5, persons, "O(n)", "Без distinct. Во множестве и так будут содержаться только уникальные элементы");
     new TestCase16().test(5, persons, "O(n)", "С distinct. Посмотрим, как скажется на времени выполнения... ");
-    System.out.println("Похоже, что лишний раз фильтровать не стоит");
+    System.out.println("\nПохоже, что лишний раз фильтровать не стоит");
   }
 
   public void checkConvertPersonToString() {
@@ -142,7 +126,15 @@ public class Task8 implements Task {
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase17().test(5, persons, "", "Старый варинат");
     new TestCase18().test(5, persons, "", "Вариант с применением стримов");
-    System.out.println("Без применения стримов - быстрее. Но читабельность кода оставляет желать лучшего");
+    System.out.println("\nБез применения стримов - быстрее. Но читабельность кода оставляет желать лучшего");
+  }
+
+  public void checkGetPersonsNames() {
+    System.out.println("Checking getPersonsNames function...");
+    System.out.println("Checking list of " + persons.size() + " persons");
+    new TestCase19().test(5, persons, "O(n)", "Вариант с циклом for");
+    new TestCase20().test(5, persons, "O(n)", "Вариант с применением стримов");
+    System.out.println("\nПохоже, что со стримами и быстрее и лаконичнее");
   }
 
 }

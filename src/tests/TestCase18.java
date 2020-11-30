@@ -20,3 +20,4 @@ public class TestCase18 extends TestCaseClass<List<Person>> {
         persons.forEach(person -> convertPersonToString(person));
     }
 }
+
