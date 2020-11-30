@@ -5,6 +5,8 @@ import common.Task;
 import common.TestCaseClass;
 import tests.TestCase13;
 import tests.TestCase14;
+import tests.TestCase15;
+import tests.TestCase16;
 
 import java.time.Instant;
 import java.util.*;
@@ -26,25 +28,11 @@ public class Task8 implements Task {
 
   //Не хотим выдывать апи нашу фальшивую персону, поэтому конвертим начиная со второй
   public List<String> getNames(List<Person> persons) {
-    if (persons.size() == 0) {
-      return Collections.emptyList();
-    }
-    persons.remove(0);
-    return persons.stream().map(Person::getFirstName).collect(Collectors.toList());
-  }
-
-  public List<String> getNamesModified(List<Person> persons) {
     return persons.stream().skip(1).map(Person::getFirstName).collect(Collectors.toList());
   }
 
   //ну и различные имена тоже хочется
   public Set<String> getDifferentNames(List<Person> persons) {
-    return getNames(persons).stream().distinct().collect(Collectors.toSet());
-  }
-
-  public Set<String> getDifferentNamesModified(List<Person> persons) {
-    System.out.println("Idea is swearing for redundant method calls...");
-    System.out.println("No distinct with sets!");
     return getNames(persons).stream().collect(Collectors.toSet());
   }
 
@@ -126,6 +114,7 @@ public class Task8 implements Task {
     System.out.println("\t  Final round\n");
     System.out.println("Слабо дойти до сюда и исправить Fail этой таски?");
     checkGetNames();
+    checkDifferentNames();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
@@ -134,12 +123,23 @@ public class Task8 implements Task {
 
   public void checkGetNames() {
     System.out.println("Checking getNames function...");
-    List<Person> persons = Stream.iterate(0, i -> i +1).limit(1_000_000)
+    List<Person> persons = Stream.iterate(0, i -> i +1).limit(5_000_000)
             .map(id -> new Person(id, "Name " + id, Instant.now()))
             .collect(Collectors.toList());
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase13().test(5, persons, "O(n)", "Using skip");
     new TestCase14().test(5, persons, "O(n)", "Удаление элемента из начала массива - не лучшая идея");
+  }
+
+  public void checkDifferentNames() {
+    System.out.println("Checking getDifferentNames function...");
+    List<Person> persons = Stream.iterate(0, i -> i +1).limit(1_000_000)
+            .map(id -> new Person(id, "Name " + id, Instant.now()))
+            .collect(Collectors.toList());
+    System.out.println("Checking list of " + persons.size() + " persons");
+    new TestCase15().test(5, persons, "O(n)", "Без distinct. Во множестве и так будут содержаться только уникальные элементы");
+    new TestCase16().test(5, persons, "O(n)", "С distinct. Посмотрим, как скажется на времени выполнения... ");
+    System.out.println("Похоже, что лишний раз фильтровать не стоит");
   }
 
 }
