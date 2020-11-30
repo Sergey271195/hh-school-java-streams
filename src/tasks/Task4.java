@@ -34,6 +34,9 @@ public class Task4 implements Task {
 
   @Override
   public boolean check() {
+    System.out.println("\n-------- TASK 4 ----------\n");
+    System.out.println("Nothing exciting here...");
+    System.out.println("Skipping to the next one");
     Person person1 = new Person(1, "Name", Instant.now());
     Person person2 = new Person(2, "Name", Instant.now());
     return List.of(convert(person1), convert(person2))

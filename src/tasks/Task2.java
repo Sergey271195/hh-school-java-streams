@@ -28,7 +28,7 @@ public class Task2 implements Task {
 
   @Override
   public boolean check() {
-    System.out.println("-------- TASK 2 ----------");
+    System.out.println("\n-------- TASK 2 ----------\n");
     checkExecutionTime();
     Instant time = Instant.now();
     Collection<Person> persons1 = Set.of(
@@ -59,10 +59,8 @@ public class Task2 implements Task {
             .collect(Collectors.toSet());
     System.out.println("Testing execution time for lists of size " + persons1.size());
     System.out.println("Assuming that sorting time complexity is O(nlogn)");
-    System.out.println("Using concat");
-    new TestCase4().test(5, List.of(persons1, persons2), "O(nlogn)");
-    System.out.println("Using flatMap");
-    new TestCase5().test(5, List.of(persons1, persons2), "O(nlogn)");
+    new TestCase4().test(5, List.of(persons1, persons2), "O(nlogn)", "Using concat");
+    new TestCase5().test(5, List.of(persons1, persons2), "O(nlogn)", "Using flatMap");
   }
 }
 
