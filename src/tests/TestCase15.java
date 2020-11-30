@@ -14,3 +14,4 @@ public class TestCase15 extends TestCaseClass<List<Person>> {
                 .stream().collect(Collectors.toSet());
     }
 }
+

@@ -3,10 +3,7 @@ package tasks;
 import common.Person;
 import common.Task;
 import common.TestCaseClass;
-import tests.TestCase13;
-import tests.TestCase14;
-import tests.TestCase15;
-import tests.TestCase16;
+import tests.*;
 
 import java.time.Instant;
 import java.util.*;
@@ -25,6 +22,9 @@ P.P.S Здесь ваши правки желательно прокоммент
 public class Task8 implements Task {
 
   private long count;
+  private List<Person> persons = Stream.iterate(0, i -> i +1).limit(5_000_000)
+          .map(id -> new Person(id, "Name " + id, Instant.now()))
+          .collect(Collectors.toList());
 
   //Не хотим выдывать апи нашу фальшивую персону, поэтому конвертим начиная со второй
   public List<String> getNames(List<Person> persons) {
@@ -113,8 +113,9 @@ public class Task8 implements Task {
     System.out.println("\n-------- TASK 8 ----------");
     System.out.println("\t  Final round\n");
     System.out.println("Слабо дойти до сюда и исправить Fail этой таски?");
-    checkGetNames();
-    checkDifferentNames();
+    //checkGetNames();
+    //checkDifferentNames();
+    checkConvertPersonToString();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
@@ -123,9 +124,6 @@ public class Task8 implements Task {
 
   public void checkGetNames() {
     System.out.println("Checking getNames function...");
-    List<Person> persons = Stream.iterate(0, i -> i +1).limit(5_000_000)
-            .map(id -> new Person(id, "Name " + id, Instant.now()))
-            .collect(Collectors.toList());
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase13().test(5, persons, "O(n)", "Using skip");
     new TestCase14().test(5, persons, "O(n)", "Удаление элемента из начала массива - не лучшая идея");
@@ -133,13 +131,18 @@ public class Task8 implements Task {
 
   public void checkDifferentNames() {
     System.out.println("Checking getDifferentNames function...");
-    List<Person> persons = Stream.iterate(0, i -> i +1).limit(1_000_000)
-            .map(id -> new Person(id, "Name " + id, Instant.now()))
-            .collect(Collectors.toList());
     System.out.println("Checking list of " + persons.size() + " persons");
     new TestCase15().test(5, persons, "O(n)", "Без distinct. Во множестве и так будут содержаться только уникальные элементы");
     new TestCase16().test(5, persons, "O(n)", "С distinct. Посмотрим, как скажется на времени выполнения... ");
     System.out.println("Похоже, что лишний раз фильтровать не стоит");
+  }
+
+  public void checkConvertPersonToString() {
+    System.out.println("Checking convertPersonToString function...");
+    System.out.println("Checking list of " + persons.size() + " persons");
+    new TestCase17().test(5, persons, "", "Старый варинат");
+    new TestCase18().test(5, persons, "", "Вариант с применением стримов");
+    System.out.println("Без применения стримов - быстрее. Но читабельность кода оставляет желать лучшего");
   }
 
 }
