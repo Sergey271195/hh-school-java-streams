@@ -7,6 +7,7 @@ import tests.*;
 
 import java.time.Instant;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +26,7 @@ public class Task8 implements Task {
   private List<Person> persons = Stream.iterate(0, i -> i +1).limit(5_000_000)
           .map(id -> new Person(id, "Name " + id, Instant.now()))
           .collect(Collectors.toList());
+
 
   //Не хотим выдывать апи нашу фальшивую персону, поэтому конвертим начиная со второй
   public List<String> getNames(List<Person> persons) {
@@ -45,39 +47,27 @@ public class Task8 implements Task {
 
   // словарь id персоны -> ее имя
   public Map<Integer, String> getPersonNames(Collection<Person> persons) {
-    Map<Integer, String> map = new HashMap<>(1);
-    for (Person person : persons) {
-      if (!map.containsKey(person.getId())) {
-        map.put(person.getId(), convertPersonToString(person));
-      }
-    }
-    return map;
-  }
-
-  public Map<Integer, String> getPersonNamesModified(Collection<Person> persons) {
     return persons.stream().collect(Collectors.toMap(
             Person::getId, person -> convertPersonToString(person), (a, b) -> a)
     );
   }
 
   // есть ли совпадающие в двух коллекциях персоны?
-  public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    boolean has = false;
-    for (Person person1 : persons1) {
-      for (Person person2 : persons2) {
-        if (person1.equals(person2)) {
-          has = true;
-        }
-      }
-    }
-    return has;
-  }
 
-  public boolean hasSamePersonsModified(Collection<Person> persons1, Collection<Person> persons2) {
+  public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
     HashSet<Person> personsSet1 = new HashSet<>(persons1);
     HashSet<Person> personsSet2 = new HashSet<>(persons2);
     personsSet1.retainAll(personsSet2);
     return personsSet1.size() > 0;
+  }
+
+  public boolean hasSamePersonsModified(Collection<Person> persons1, Collection<Person> persons2) {
+    //Если бы я был уверен, что каждому id соответствует уникальная персона
+    Map<Integer, Person> personMap = persons1.stream()
+            .collect(Collectors.toMap(Person::getId, Function.identity(), (a, b) -> a));
+    Optional<Person> result = persons2.stream()
+            .filter(person -> personMap.get(person.getId()) == person).findFirst();
+    return !result.isEmpty();
   }
 
   //...
@@ -99,7 +89,8 @@ public class Task8 implements Task {
     //checkGetNames();
     //checkDifferentNames();
     //checkConvertPersonToString();
-    checkGetPersonsNames();
+    //checkGetPersonsNames();
+    checkHasSamePerson();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
@@ -135,6 +126,21 @@ public class Task8 implements Task {
     new TestCase19().test(5, persons, "O(n)", "Вариант с циклом for");
     new TestCase20().test(5, persons, "O(n)", "Вариант с применением стримов");
     System.out.println("\nПохоже, что со стримами и быстрее и лаконичнее");
+  }
+
+  public void checkHasSamePerson() {
+    System.out.println("Checking hasSamePerson function...");
+    System.out.println("Checking list of " + persons.size() + " persons");
+    new TestCase21().test(1, List.of(persons.subList(1_000_000, 2_000_000), persons.subList(0, 1_100_000)),
+            "",
+            "Двойной цикл for");
+    new TestCase22().test(5, List.of(persons.subList(1_000_000, 2_000_000), persons.subList(0, 990_000)),
+            "",
+            "Пересечение множеств");
+    new TestCase23().test(5, List.of(persons.subList(1_000_000, 2_000_000), persons.subList(0, 990_000)),
+            "",
+            "Перевод одной коллекции в Map (при услови, что каждому id соответствует уникальная персона)\nИспользование стримов и фильтров");
+    System.out.println("\nИ снова стримы быстрее и лаконичнее");
   }
 
 }

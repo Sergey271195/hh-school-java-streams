@@ -35,3 +35,4 @@ public class TestCase20 extends TestCaseClass<Collection<Person>> {
                 Person::getId, person -> convertPersonToString(person), (a, b) -> a));
     }
 }
+
