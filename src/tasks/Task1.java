@@ -1,13 +1,14 @@
 package tasks;
 
-import common.Person;
-import common.PersonService;
-import common.Task;
+import common.*;
+import tests.TestCase1;
+import tests.TestCase2;
+import tests.TestCase3;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
 Задача 1
@@ -18,20 +19,36 @@ import java.util.stream.Collectors;
  */
 public class Task1 implements Task {
 
-  // !!! Редактируйте этот метод !!!
+  //Итерация по Set<Person> для создания Map - O(n)
+  //Итерация по personsId, получение объекта по ключу, добавление объекта в список - O(n)
+  //Итого: Асимптотика - O(n)
+
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
-    return Collections.emptyList();
+    Map<Integer, Person> map = persons.stream()
+            .collect(Collectors.toMap(Person::getId, Function.identity(), (a, b) -> a));
+    return personIds.stream().map(id -> map.get(id)).collect(Collectors.toList());
   }
 
   @Override
   public boolean check() {
+    System.out.println("\n-------- TASK 1 ----------\n");
     List<Integer> ids = List.of(1, 2, 3);
-
+    checkExecutionTime();
     return findOrderedPersons(ids).stream()
         .map(Person::getId)
         .collect(Collectors.toList())
         .equals(ids);
   }
 
+  public void checkExecutionTime() {
+    List<Integer> ids = Stream.iterate(1, i -> i + 1).limit(100_000).collect(Collectors.toList());
+    System.out.println("Testing execution time for " + ids.size() + " ids");
+    System.out.println("Assuming that findPerson time complexity is O(k)");
+    new TestCase1().test(5, ids, "O(n+k)", "");
+    new TestCase2().test(5, ids, "O(n*k)", "");
+    new TestCase3().test(1, ids, "O(n*n+k)", "");
+  }
+
 }
+
