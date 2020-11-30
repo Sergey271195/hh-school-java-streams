@@ -1,15 +1,18 @@
-package tasks;
+package tests;
 
 import common.Area;
 import common.Person;
 import common.TestCaseForTask6;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-class TestCase9 extends TestCaseForTask6 {
+public class TestCase8 extends TestCaseForTask6 {
 
-  public TestCase9(Map<Integer, Set<Integer>> personAreaIds, List<Area> areas) {
+  public TestCase8(Map<Integer, Set<Integer>> personAreaIds, List<Area> areas) {
     super(personAreaIds, areas);
   }
 
@@ -18,11 +21,7 @@ class TestCase9 extends TestCaseForTask6 {
 
     Map<Integer, String> areasMap = this.areas.stream().collect(Collectors.toMap(Area::getId, Area::getName));
     Map<Integer, String> personsMap = persons.stream().collect(Collectors.toMap(Person::getId, Person::getFirstName));
-    Set<String> result = new HashSet<>();
-    for (int key: personAreaIds.keySet()) {
-      for (int areaId: personAreaIds.get(key)) {
-          result.add(personsMap.get(key) + " - " + areasMap.get(areaId));
-      }
-    }
+    this.personAreaIds.keySet().stream().flatMap(key -> this.personAreaIds.get(key)
+            .stream().map(value -> personsMap.get(key) + " - " + areasMap.get(value))).collect(Collectors.toSet());
   }
 }

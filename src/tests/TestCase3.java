@@ -1,4 +1,4 @@
-package tasks;
+package tests;
 
 import common.Person;
 import common.PersonService;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-class TestCase3 extends TestCaseClass<List<Integer>> {
+public class TestCase3 extends TestCaseClass<List<Integer>> {
 
   @Override
   public void execute(List<Integer> personIds) {

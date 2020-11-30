@@ -27,8 +27,8 @@ public class Main {
         //new Task3(),
         //new Task4(),
         //new Task5(),
-        new Task6(),
-        new Task7(),
+        //new Task6(),
+        //new Task7(),
         new Task8()
     );
     tasks.forEach(task -> System.out.println(task.getClass().getName() + " - "  + (task.check() ? "Success" : "Fail")));

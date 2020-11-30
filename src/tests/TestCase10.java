@@ -1,4 +1,4 @@
-package tasks;
+package tests;
 
 import common.Area;
 import common.Person;
@@ -7,7 +7,7 @@ import common.TestCaseForTask6;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class TestCase10 extends TestCaseForTask6 {
+public class TestCase10 extends TestCaseForTask6 {
 
   public TestCase10(Map<Integer, Set<Integer>> personAreaIds, List<Area> areas) {
     super(personAreaIds, areas);

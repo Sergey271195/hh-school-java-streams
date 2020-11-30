@@ -1,4 +1,4 @@
-package tasks;
+package tests;
 
 import common.Person;
 import common.TestCaseClass;
@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-class TestCase6 extends TestCaseClass<Collection<Person>> {
+public class TestCase6 extends TestCaseClass<Collection<Person>> {
 
   @Override
   public void execute(Collection<Person> persons) {

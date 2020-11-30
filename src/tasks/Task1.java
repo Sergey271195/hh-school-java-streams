@@ -1,6 +1,9 @@
 package tasks;
 
 import common.*;
+import tests.TestCase1;
+import tests.TestCase2;
+import tests.TestCase3;
 
 import java.util.*;
 import java.util.function.Function;

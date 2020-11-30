@@ -1,4 +1,4 @@
-package tasks;
+package tests;
 
 import common.Person;
 import common.PersonService;
@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-class TestCase1 extends TestCaseClass<List<Integer>> {
+public class TestCase1 extends TestCaseClass<List<Integer>> {
 
   @Override
   public void execute(List<Integer> personIds) {
