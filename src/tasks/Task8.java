@@ -8,6 +8,7 @@ import tests.*;
 import java.time.Instant;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -90,7 +91,8 @@ public class Task8 implements Task {
     //checkDifferentNames();
     //checkConvertPersonToString();
     //checkGetPersonsNames();
-    checkHasSamePerson();
+    //checkHasSamePerson();
+    checkCountEven();
     boolean codeSmellsGood = false;
     boolean reviewerDrunk = false;
 
@@ -130,7 +132,7 @@ public class Task8 implements Task {
 
   public void checkHasSamePerson() {
     System.out.println("Checking hasSamePerson function...");
-    System.out.println("Checking list of " + persons.size() + " persons");
+
     new TestCase21().test(1, List.of(persons.subList(1_000_000, 2_000_000), persons.subList(0, 1_100_000)),
             "",
             "Двойной цикл for");
@@ -141,6 +143,13 @@ public class Task8 implements Task {
             "",
             "Перевод одной коллекции в Map (при услови, что каждому id соответствует уникальная персона)\nИспользование стримов и фильтров");
     System.out.println("\nИ снова стримы быстрее и лаконичнее");
+  }
+
+  public void checkCountEven() {
+    System.out.println("Checking countEven function...");
+    new TestCase24().test(5, 1, "O(n)", "Первоначальный вариант");
+    new TestCase25().test(5, 1, "O(n)", "Streams.count()");
+    System.out.println("\nЭтот результат меня удивил\n");
   }
 
 }

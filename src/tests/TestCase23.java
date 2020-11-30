@@ -20,3 +20,4 @@ public class TestCase23 extends TestCaseClass<List<Collection<Person>>> {
         boolean answer = !result.isEmpty();
     }
 }
+
