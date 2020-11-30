@@ -1,14 +1,12 @@
 package tasks;
 
-import common.Person;
-import common.Task;
+import common.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
 Задача 2
@@ -22,11 +20,16 @@ public class Task2 implements Task {
   private static List<Person> combineAndSortWithLimit(Collection<Person> persons1,
                                                       Collection<Person> persons2,
                                                       int limit) {
-    return new ArrayList<>();
+
+    return Stream.concat(persons1.stream(), persons2.stream())
+            .sorted(Comparator.comparing(Person::getCreatedAt))
+            .limit(limit).collect(Collectors.toList());
   }
 
   @Override
   public boolean check() {
+    System.out.println("-------- TASK 2 ----------");
+    checkExecutionTime();
     Instant time = Instant.now();
     Collection<Person> persons1 = Set.of(
         new Person(1, "Person 1", time),
@@ -45,4 +48,21 @@ public class Task2 implements Task {
         .collect(Collectors.toList())
         .equals(List.of(3, 1, 2, 4));
   }
+
+  public void checkExecutionTime() {
+    Instant time = Instant.now();
+    Collection<Person> persons1 = Stream.iterate(1, i -> i+1).limit(100_000)
+            .map(id -> new Person(id, "Person " + id, time.plusSeconds(id)))
+            .collect(Collectors.toSet());
+    Collection<Person> persons2 = Stream.iterate(100_000, i -> i+1).limit(100_000)
+            .map(id -> new Person(id, "Person " + id, time.minusSeconds(200_000 - id)))
+            .collect(Collectors.toSet());
+    System.out.println("Testing execution time for lists of size " + persons1.size());
+    System.out.println("Assuming that sorting time complexity is O(nlogn)");
+    System.out.println("Using concat");
+    new TestCase4().test(5, List.of(persons1, persons2), "O(nlogn)");
+    System.out.println("Using flatMap");
+    new TestCase5().test(5, List.of(persons1, persons2), "O(nlogn)");
+  }
 }
+
