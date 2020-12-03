@@ -32,23 +32,11 @@ public class Task1 implements Task {
 
   @Override
   public boolean check() {
-    System.out.println("\n-------- TASK 1 ----------\n");
     List<Integer> ids = List.of(1, 2, 3);
-    checkExecutionTime();
     return findOrderedPersons(ids).stream()
         .map(Person::getId)
         .collect(Collectors.toList())
         .equals(ids);
   }
-
-  public void checkExecutionTime() {
-    List<Integer> ids = Stream.iterate(1, i -> i + 1).limit(100_000).collect(Collectors.toList());
-    System.out.println("Testing execution time for " + ids.size() + " ids");
-    System.out.println("Assuming that findPerson time complexity is O(k)");
-    new TestCase1().test(5, ids, "O(n+k)", "");
-    new TestCase2().test(5, ids, "O(n*k)", "");
-    new TestCase3().test(1, ids, "O(n*n+k)", "");
-  }
-
 }
 
