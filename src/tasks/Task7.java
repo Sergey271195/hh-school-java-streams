@@ -1,12 +1,11 @@
 package tasks;
 
-import common.Company;
-import common.Task;
-import common.Vacancy;
+import common.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
 Из коллекции компаний необходимо получить всевозможные различные названия вакансий
@@ -14,7 +13,8 @@ import java.util.Set;
 public class Task7 implements Task {
 
   private Set<String> vacancyNames(Collection<Company> companies) {
-    return new HashSet<>();
+    return companies.stream().flatMap(company -> company.getVacancies().stream())
+            .map(Vacancy::getTitle).collect(Collectors.toSet());
   }
 
   @Override
@@ -27,3 +27,4 @@ public class Task7 implements Task {
     return vacancyNames(Set.of(company1, company2)).equals(Set.of("vacancy 1", "vacancy 2"));
   }
 }
+
