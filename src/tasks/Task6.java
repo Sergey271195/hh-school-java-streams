@@ -1,9 +1,6 @@
 package tasks;
 
 import common.*;
-import tests.TestCase10;
-import tests.TestCase8;
-import tests.TestCase9;
 
 import java.time.Instant;
 import java.util.*;
@@ -18,15 +15,13 @@ import java.util.stream.Stream;
 На выходе хочется получить множество строк вида "Имя - регион". Если у персон регионов несколько, таких строк так же будет несколько
  */
 public class Task6 implements Task {
-
+  //Так и правда намного лучше
   private Set<String> getPersonDescriptions(Collection<Person> persons,
                                             Map<Integer, Set<Integer>> personAreaIds,
                                             Collection<Area> areas) {
     Map<Integer, String> areasMap = areas.stream().collect(Collectors.toMap(Area::getId, Area::getName));
-    Map<Integer, String> personsMap = persons.stream().collect(Collectors.toMap(Person::getId, Person::getFirstName));
-    Set<String> result = personAreaIds.keySet().stream().flatMap(key-> personAreaIds.get(key)
-            .stream().map(value -> personsMap.get(key) + " - " + areasMap.get(value))).collect(Collectors.toSet());
-    return result;
+    return persons.stream().flatMap(person -> personAreaIds.get(person.getId()).stream()
+                .map(value -> person.getFirstName() + " - " + areasMap.get(value))).collect(Collectors.toSet());
   }
 
   @Override

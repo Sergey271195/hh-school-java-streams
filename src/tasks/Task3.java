@@ -2,8 +2,6 @@ package tasks;
 
 import common.Person;
 import common.Task;
-import tests.TestCase6;
-import tests.TestCase7;
 
 import java.time.Instant;
 import java.util.*;
