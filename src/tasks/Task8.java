@@ -28,8 +28,8 @@ public class Task8 implements Task {
 
   //ну и различные имена тоже хочется
   public Set<String> getDifferentNames(List<Person> persons) {
-    //distinct здесь излишен
-    return getNames(persons).stream().collect(Collectors.toSet());
+    //Идея только про distinct мне подсказывала))
+    return new HashSet<>(getNames(persons));
   }
 
   //Для фронтов выдадим полное имя, а то сами не могут
@@ -48,30 +48,12 @@ public class Task8 implements Task {
   }
 
   // есть ли совпадающие в двух коллекциях персоны?
-  //O(n*k) слишком долго
-  //Добавление break не поможет, если совпадающих персон нет
-  //Да и рассматриваем мы всегда worst case
-
-  //В приведенном ниже случае асимптотика - O(n)
-  //поскольку HashSet позволяет проверять наличие в нем объекта за константное время
+//Совсем крастота
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    HashSet<Person> personsSet1 = new HashSet<>(persons1);
-    HashSet<Person> personsSet2 = new HashSet<>(persons2);
-    personsSet1.retainAll(personsSet2);
-    return personsSet1.size() > 0;
+      return persons1.stream().anyMatch(person -> new HashSet<>(persons2).contains(person));
   }
 
-  //Если бы я был уверен, что каждому id соответствует уникальная персона
-  public boolean hasSamePersonsModified(Collection<Person> persons1, Collection<Person> persons2) {
-
-    Map<Integer, Person> personMap = persons1.stream()
-            .collect(Collectors.toMap(Person::getId, Function.identity(), (a, b) -> a));
-    Optional<Person> result = persons2.stream()
-            .filter(person -> personMap.get(person.getId()) == person).findFirst();
-    return !result.isEmpty();
-  }
-
-  //В данном случае нет необходимости вводить лишнюю перепенную
+  //В голову приходит только возможность изменения значения переменной в другом месте программы
   public long countEven(Stream<Integer> numbers) {
     return numbers.filter(num -> num % 2 == 0).count();
   }
